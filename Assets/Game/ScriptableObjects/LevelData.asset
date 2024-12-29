@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67f663daad74e84ea43d2a9993f90ae, type: 3}
+  m_Name: LevelData
+  m_EditorClassIdentifier: 
+  levels:
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 50
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
