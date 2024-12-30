@@ -36,48 +36,44 @@ public class UpgradeManager : MonoBehaviour
             return upgradeCost;
         }
 
-        Debug.LogWarning("Not enough money to upgrade stamina!");
         return 0f;
     }
 
     public float GetSpeedUpgradeCost(int upgradeCount)
     {
-        return baseSpeedUpgradeCost * Mathf.Pow(1.1f, upgradeCount);
+        return Mathf.Ceil(baseSpeedUpgradeCost * Mathf.Pow(1.1f, upgradeCount));
     }
 
-    public bool UpgradeSpeed(PlayerData playerData)
+    public float UpgradeSpeed(PlayerData playerData)
     {
         float upgradeCost = GetSpeedUpgradeCost(playerData.speedUpgradeCount);
 
         if (playerData.money >= upgradeCost)
         {
-            playerData.money -= upgradeCost;
             playerData.speed += 0.1f;
             playerData.speedUpgradeCount++;
-            return true;
+            return upgradeCost;
         }
 
-        Debug.LogWarning("Not enough money to upgrade speed!");
-        return false;
+        return 0f;
     }
 
     public float GetIncomeUpgradeCost(int upgradeCount)
     {
-        return baseIncomeUpgradeCost * Mathf.Pow(1.1f, upgradeCount);
+        return Mathf.Ceil(baseIncomeUpgradeCost * Mathf.Pow(1.1f, upgradeCount));
     }
 
-    public bool UpgradeIncome(PlayerData playerData)
+    public float UpgradeIncome(PlayerData playerData)
     {
         float upgradeCost = GetIncomeUpgradeCost(playerData.incomeUpgradeCount);
 
         if (playerData.money >= upgradeCost)
         {
-            playerData.money -= upgradeCost;
             playerData.income += 1;
             playerData.incomeUpgradeCount++;
-            return true;
+            return upgradeCost;
         }
 
-        return false;
+        return 0f;
     }
 }

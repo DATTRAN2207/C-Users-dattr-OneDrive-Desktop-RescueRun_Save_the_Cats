@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -88,6 +89,6 @@ public class GameStateManager : MonoBehaviour
     {
         playerController.enabled = false;
 
-
+        SceneManager.LoadScene("MenuScene");
     }
 }

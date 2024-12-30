@@ -730,7 +730,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 25.000002, y: 40}
-  m_SizeDelta: {x: -49.999996, y: 50}
+  m_SizeDelta: {x: -49.999996, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &520743974
 MonoBehaviour:
@@ -1172,8 +1172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staminaUpgradeButton: {fileID: 5620126823114802262}
-  speedUpgradeButton: {fileID: 1520400466}
-  incomeUpgradeButton: {fileID: 1567818717}
+  speedUpgradeButton: {fileID: 1520400470}
+  incomeUpgradeButton: {fileID: 1567818721}
   raceButton: {fileID: 7779615142363927084}
   currentMoney: {fileID: 3572863230421013576}
 --- !u!1 &993167181
@@ -1211,7 +1211,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 25.000002, y: 40}
-  m_SizeDelta: {x: -49.999996, y: 50}
+  m_SizeDelta: {x: -49.999996, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &993167183
 MonoBehaviour:
@@ -1322,7 +1322,7 @@ GameObject:
   - component: {fileID: 1008377119}
   - component: {fileID: 1008377118}
   m_Layer: 0
-  m_Name: CurrentStamina
+  m_Name: CurrentStaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1345,7 +1345,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008377118
 MonoBehaviour:
@@ -1394,8 +1394,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1622,7 +1622,7 @@ GameObject:
   - component: {fileID: 1162480534}
   - component: {fileID: 1162480533}
   m_Layer: 0
-  m_Name: CurrentStamina
+  m_Name: CurrentSpeedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,7 +1645,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162480533
 MonoBehaviour:
@@ -1694,8 +1694,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2070,6 +2070,7 @@ GameObject:
   - component: {fileID: 1520400467}
   - component: {fileID: 1520400466}
   - component: {fileID: 1520400465}
+  - component: {fileID: 1520400470}
   m_Layer: 0
   m_Name: SpeedBtn
   m_TagString: Untagged
@@ -2219,6 +2220,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520400463}
   m_CullTransparentMesh: 0
+--- !u!114 &1520400470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520400463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294f40e4f80218d4c8b0dcbfdcc3227e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentValue: {fileID: 1162480533}
+  upgradeCost: {fileID: 520743974}
 --- !u!1 &1537769384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,6 +2382,7 @@ GameObject:
   - component: {fileID: 1567818718}
   - component: {fileID: 1567818717}
   - component: {fileID: 1567818716}
+  - component: {fileID: 1567818721}
   m_Layer: 0
   m_Name: IncomeBtn
   m_TagString: Untagged
@@ -2516,6 +2532,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567818714}
   m_CullTransparentMesh: 0
+--- !u!114 &1567818721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567818714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d479cb73e35635340a43649f97d67a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentValue: {fileID: 1616694404}
+  upgradeCost: {fileID: 1982687500}
 --- !u!1 &1616694402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,7 +2558,7 @@ GameObject:
   - component: {fileID: 1616694405}
   - component: {fileID: 1616694404}
   m_Layer: 0
-  m_Name: CurrentStamina
+  m_Name: CurrentIncomeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2551,7 +2581,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1616694404
 MonoBehaviour:
@@ -2600,8 +2630,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2894,7 +2924,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 25.000002, y: 40}
-  m_SizeDelta: {x: -49.999996, y: 50}
+  m_SizeDelta: {x: -49.999996, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1982687500
 MonoBehaviour:
@@ -3029,7 +3059,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 0, y: 500}
+  m_SizeDelta: {x: -100, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2015574467
 MonoBehaviour:

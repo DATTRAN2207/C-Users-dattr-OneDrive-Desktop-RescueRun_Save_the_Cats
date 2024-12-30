@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private FixedJoystick _joystick;
     [SerializeField] private Animator _animator;
 
-    private float moveSpeed = 5f;
     private float rotationSpeed = 2f;
 
     private Quaternion _lastRotation;
@@ -21,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 inputDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
 
-        Vector3 movement = inputDirection.normalized * moveSpeed;
+        Vector3 movement = inputDirection.normalized * GameManager.Instance.playerData.speed;
         _rigidbody.velocity = new Vector3(movement.x, _rigidbody.velocity.y, movement.z);
 
         if (inputDirection != Vector3.zero)
