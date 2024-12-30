@@ -88,7 +88,7 @@ public class GameStateManager : MonoBehaviour
     private void CompletePhase()
     {
         playerController.enabled = false;
-
+        GameManager.Instance.playerData.level += 1;
         SceneManager.LoadScene("MenuScene");
     }
 }

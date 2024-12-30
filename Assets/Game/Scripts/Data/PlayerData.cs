@@ -3,6 +3,7 @@ using System;
 [Serializable]
 public class PlayerData
 {
+    public int level;
     public float money;
 
     public float stamina;
@@ -13,8 +14,9 @@ public class PlayerData
     public int speedUpgradeCount;
     public int incomeUpgradeCount;
 
-    public PlayerData(float currentMoney, float initialStamina, float initialSpeed, float initialIncome)
+    public PlayerData(int currentLevel, float currentMoney, float initialStamina, float initialSpeed, float initialIncome)
     {
+        level = currentLevel;
         money = currentMoney;
 
         stamina = initialStamina;

@@ -49,7 +49,6 @@ public class UIMenu : MonoBehaviour
             playerData.money -= upgradeCost;
             staminaUpgradeButton.SetupUI(playerData);
             SetupMoneyUI(playerData);
-            GameManager.Instance.SavePlayerData();
         }
     }
 
@@ -63,7 +62,6 @@ public class UIMenu : MonoBehaviour
             playerData.money -= upgradeCost;
             speedUpgradeButton.SetupUI(playerData);
             SetupMoneyUI(playerData);
-            GameManager.Instance.SavePlayerData();
         }
     }
 
@@ -77,7 +75,6 @@ public class UIMenu : MonoBehaviour
             playerData.money -= upgradeCost;
             incomeUpgradeButton.SetupUI(playerData);
             SetupMoneyUI(playerData);
-            GameManager.Instance.SavePlayerData();
         }
     }
 

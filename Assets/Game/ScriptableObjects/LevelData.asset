@@ -14,8 +14,145 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - roadLength: 400
-    catCount: 10
+    catCount: 5
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 10
+  - roadLength: 1000
+    catCount: 30
     obstacleCount: 50
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4273581905617901186, guid: 15680bf7abc1178479f79d12bb036d3b, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 10
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
+    cats:
+    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
+      safeRadius: 10
+    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
+      safeRadius: 10
+    obstacles:
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
+      safeRadius: 5
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      safeRadius: 10
+    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      safeRadius: 15
+  - roadLength: 400
+    catCount: 10
+    obstacleCount: 10
     cats:
     - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
       safeRadius: 10

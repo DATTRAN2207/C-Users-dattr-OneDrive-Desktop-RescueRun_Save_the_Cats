@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            playerData = new PlayerData(currentMoney: 50f, initialStamina: 60f, initialSpeed: 1f, initialIncome: 3f);
+            playerData = new PlayerData(currentLevel: 0, currentMoney: 50f, initialStamina: 60f, initialSpeed: 1f, initialIncome: 3f);
             SavePlayerData();
             PlayerPrefs.SetInt(PlayerInitializedKey, 1);
         }
@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     public void SavePlayerData()
     {
+        PlayerPrefs.SetInt("Level", playerData.level);
         PlayerPrefs.SetFloat("Money", playerData.money);
-
         PlayerPrefs.SetFloat("Stamina", playerData.stamina);
         PlayerPrefs.SetFloat("Speed", playerData.speed);
         PlayerPrefs.SetFloat("Income", playerData.income);
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadPlayerData()
     {
+        int level = PlayerPrefs.GetInt("Level", 0);
         float money = PlayerPrefs.GetFloat("Money", 100f);
         float stamina = PlayerPrefs.GetFloat("Stamina", 100f);
         float speed = PlayerPrefs.GetFloat("Speed", 5f);
@@ -62,11 +63,16 @@ public class GameManager : MonoBehaviour
         int speedUpgradeCount = PlayerPrefs.GetInt("SpeedUpgradeCount", 0);
         int incomeUpgradeCount = PlayerPrefs.GetInt("IncomeUpgradeCount", 0);
 
-        playerData = new PlayerData(money, stamina, speed, income)
+        playerData = new PlayerData(level, money, stamina, speed, income)
         {
             staminaUpgradeCount = staminaUpgradeCount,
             speedUpgradeCount = speedUpgradeCount,
             incomeUpgradeCount = incomeUpgradeCount
         };
+    }
+
+    private void OnApplicationQuit()
+    {
+        SavePlayerData();
     }
 }

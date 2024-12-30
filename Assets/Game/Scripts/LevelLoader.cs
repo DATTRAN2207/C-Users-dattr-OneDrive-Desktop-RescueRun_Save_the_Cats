@@ -5,14 +5,17 @@ public class LevelLoader : MonoBehaviour
 {
     [SerializeField] private LevelData levelData;
     [SerializeField] private Transform spawnParent;
+    [SerializeField] private GameObject terrianPrefab;
+    [SerializeField] private GameObject road;
+    [SerializeField] private GameObject endPoint;
 
     [Header("Spawn Settings")]
-    public float startBuffer = 20f;
-    public float endBuffer = 40f;
+    [SerializeField] private float startBuffer = 20f;
+    [SerializeField] private float endBuffer = 40f;
 
     private void Start()
     {
-        LoadLevel(0);
+        LoadLevel(GameManager.Instance.playerData.level);
     }
 
     public void LoadLevel(int levelIndex)
@@ -34,9 +37,32 @@ public class LevelLoader : MonoBehaviour
 
         List<Vector3> allPositions = new List<Vector3>();
 
+        SetupRoad(roadLength);
+
+        SpawnTerrain(roadLength);
+
         SpawnCats(level.catCount, roadLength, level.cats, allPositions);
 
         SpawnObstacles(level.obstacleCount, roadLength, level.obstacles, allPositions);
+    }
+
+    private void SetupRoad(float roadLength)
+    {
+        endPoint.transform.position = new Vector3(0f, 0.5f, roadLength - 20f);
+        road.transform.position = new Vector3(0f, 0f, roadLength / 2f);
+        road.transform.localScale = new Vector3(10f, 0.5f, roadLength);
+    }
+
+    private void SpawnTerrain(float roadLength)
+    {
+        var terrainCount = Mathf.CeilToInt(roadLength / 100f);
+        float terrainPos = 0f;
+        for (int i = 0; i < terrainCount; i++)
+        {
+            var terrain = Instantiate(terrianPrefab, Vector3.zero, Quaternion.identity, spawnParent);
+            terrain.transform.position = new Vector3(-60f, 0f, terrainPos);
+            terrainPos += 100f;
+        }
     }
 
     private List<Vector3> SpawnCats(int totalCatCount, float roadLength, List<LevelData.CatData> catTypes, List<Vector3> allPositions)
