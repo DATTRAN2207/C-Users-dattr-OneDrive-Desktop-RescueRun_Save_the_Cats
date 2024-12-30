@@ -7,18 +7,34 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private FixedJoystick _joystick;
     [SerializeField] private Animator _animator;
 
-    [SerializeField] private float _moveSpeed;
+    private float moveSpeed = 5f;
+    private float rotationSpeed = 2f;
+
+    private Quaternion _lastRotation;
+
+    private void Start()
+    {
+        _lastRotation = transform.rotation;
+    }
 
     private void FixedUpdate()
     {
-        _rigidbody.linearVelocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.linearVelocity.y, _joystick.Vertical * _moveSpeed);
+        Vector3 inputDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
 
-        if (_joystick.Horizontal != 0 || _joystick.Vertical != 0)
+        Vector3 movement = inputDirection.normalized * moveSpeed;
+        _rigidbody.velocity = new Vector3(movement.x, _rigidbody.velocity.y, movement.z);
+
+        if (inputDirection != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(_rigidbody.linearVelocity);
-            _animator.SetBool("Run", true);
+            _lastRotation = Quaternion.LookRotation(inputDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lastRotation, Time.deltaTime * rotationSpeed);
+
+            _animator.SetBool("isRunning", true);
         }
         else
-            _animator.SetBool("Run", false);
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lastRotation, Time.deltaTime * rotationSpeed);
+            _animator.SetBool("isRunning", false);
+        }
     }
 }

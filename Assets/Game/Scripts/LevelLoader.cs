@@ -62,8 +62,8 @@ public class LevelLoader : MonoBehaviour
 
             while (attempts < 100)
             {
-                float xPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
-                float zPosition = Random.Range(-4f, 4f);
+                float zPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
+                float xPosition = Random.Range(-4f, 4f);
                 newPosition = new Vector3(xPosition, 0, zPosition);
                 attempts++;
 
@@ -110,8 +110,8 @@ public class LevelLoader : MonoBehaviour
 
             while (attempts < 100)
             {
-                float xPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
-                float zPosition = Random.Range(-4f, 4f);
+                float zPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
+                float xPosition = Random.Range(-4f, 4f);
                 newPosition = new Vector3(xPosition, 0, zPosition);
                 attempts++;
 
