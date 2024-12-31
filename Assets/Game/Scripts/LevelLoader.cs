@@ -10,8 +10,13 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private GameObject endPoint;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float startBuffer = 20f;
-    [SerializeField] private float endBuffer = 40f;
+    [SerializeField] private int startBuffer;
+    [SerializeField] private int endBuffer;
+
+    private int[,] grid;
+    private int roadLength;
+    private int roadWidth = 10;
+    private int laneWidth = 5;
 
     private void Start()
     {
@@ -33,23 +38,141 @@ public class LevelLoader : MonoBehaviour
         }
 
         var level = levelData.levels[levelIndex];
-        float roadLength = level.roadLength;
+        roadLength = level.roadLength;
 
-        List<Vector3> allPositions = new List<Vector3>();
+        grid = new int[roadWidth, roadLength];
+
+        GetRandomPositionToEndPoint(level);
+
+        //PlaceObstacles(level);
 
         SetupRoad(roadLength);
 
         SpawnTerrain(roadLength);
+    }
 
-        SpawnCats(level.catCount, roadLength, level.cats, allPositions);
+    private void PlaceObstacles(LevelData.Level level)
+    {
+        for (int i = 0; i < level.obstacleCount; i++)
+        {
+            var selectedObstacle = GetRandomObstacleData(level.obstacles);
 
-        SpawnObstacles(level.obstacleCount, roadLength, level.obstacles, allPositions);
+            bool placed = false;
+
+            for (int attempt = 0; attempt < 100; attempt++)
+            {
+                int startX = Random.Range(0, roadWidth - selectedObstacle.sizeInGrid.x + 1);
+                int startZ = Random.Range(0, roadLength - selectedObstacle.sizeInGrid.y + 1);
+
+                if (CanPlaceObstacle(startX, startZ, selectedObstacle.sizeInGrid))
+                {
+                    PlaceObstacleOnGrid(startX, startZ, selectedObstacle);
+
+                    Vector3 position = new Vector3(startX + selectedObstacle.sizeInGrid.x / 2f, 0f, startZ + selectedObstacle.sizeInGrid.y / 2f);
+                    Instantiate(selectedObstacle.obstaclePrefab, position, Quaternion.identity, spawnParent);
+
+                    placed = true;
+                    break;
+                }
+            }
+
+            if (!placed)
+            {
+                Debug.LogWarning($"Failed to place obstacle {i + 1}. Grid may be full.");
+            }
+        }
+    }
+
+    private bool CanPlaceObstacle(int startX, int startZ, Vector2Int size)
+    {
+        for (int x = startX; x < startX + size.x; x++)
+        {
+            for (int z = startZ; z < startZ + size.y; z++)
+            {
+                if (x >= roadWidth || z >= roadLength || grid[x, z] != 0)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void PlaceObstacleOnGrid(int startX, int startZ, LevelData.ObstacleData obstacle)
+    {
+        for (int x = startX; x < startX + obstacle.sizeInGrid.x; x++)
+        {
+            for (int z = startZ; z < startZ + obstacle.sizeInGrid.y; z++)
+            {
+                grid[x, z] = 2;
+            }
+        }
+    }
+
+    private void GetRandomPositionToEndPoint(LevelData.Level level)
+    {
+        int effectiveLength = roadLength - startBuffer - endBuffer;
+
+        int segmentLength = effectiveLength / level.catCount;
+
+        int currentZ = startBuffer;
+
+        for (int i = 0; i < level.catCount; i++)
+        {
+            int currentLaneStart = Random.Range(1, roadWidth - 1);
+            grid[currentLaneStart, currentZ] = 3;
+            var selectedCat = GetRandomCatData(level.cats);
+            Instantiate(selectedCat.catPrefab, new Vector3(currentLaneStart, 0f, currentZ), Quaternion.identity, spawnParent);
+            GetLaneWidth(currentLaneStart, currentZ);
+            currentZ += segmentLength;
+        }
+    }
+
+    private void GetLaneWidth(int currentX, int currentZ)
+    {
+        if (currentX == 0)
+        {
+            for (int i = 0; i < laneWidth; i++)
+            {
+                grid[i, currentZ] = 1;
+            }
+        }
+        else if (currentX == roadWidth)
+        {
+            for (int i = roadWidth - laneWidth; i < roadWidth; i++)
+            {
+                grid[i, currentZ] = 1;
+            }
+        }
+        else
+        {
+            int leftIndex = currentX - 1;
+            int rightIndex = currentX + 1;
+            int markedCells = 1;
+
+            while (markedCells < laneWidth)
+            {
+                if (leftIndex >= 0 && markedCells < laneWidth)
+                {
+                    grid[leftIndex, currentZ] = 1;
+                    leftIndex--;
+                    markedCells++;
+                }
+
+                if (rightIndex < roadWidth && markedCells < laneWidth)
+                {
+                    grid[rightIndex, currentZ] = 1;
+                    rightIndex++;
+                    markedCells++;
+                }
+            }
+        }
     }
 
     private void SetupRoad(float roadLength)
     {
-        endPoint.transform.position = new Vector3(0f, 0.5f, roadLength - 20f);
-        road.transform.position = new Vector3(0f, 0f, roadLength / 2f);
+        endPoint.transform.position = new Vector3(5f, 0.5f, roadLength - 20f);
+        road.transform.position = new Vector3(5f, 0f, roadLength / 2f);
         road.transform.localScale = new Vector3(10f, 0.5f, roadLength);
     }
 
@@ -60,102 +183,8 @@ public class LevelLoader : MonoBehaviour
         for (int i = 0; i < terrainCount; i++)
         {
             var terrain = Instantiate(terrianPrefab, Vector3.zero, Quaternion.identity, spawnParent);
-            terrain.transform.position = new Vector3(-60f, 0f, terrainPos);
+            terrain.transform.position = new Vector3(-55f, 0f, terrainPos);
             terrainPos += 100f;
-        }
-    }
-
-    private List<Vector3> SpawnCats(int totalCatCount, float roadLength, List<LevelData.CatData> catTypes, List<Vector3> allPositions)
-    {
-        if (catTypes == null || catTypes.Count == 0)
-        {
-            Debug.LogError("No cat types available.");
-            return new List<Vector3>();
-        }
-
-        List<Vector3> catPositions = new List<Vector3>();
-        float effectiveRoadLength = roadLength - startBuffer - endBuffer;
-        float segmentLength = effectiveRoadLength / totalCatCount;
-
-        for (int i = 0; i < totalCatCount; i++)
-        {
-            Vector3 newPosition;
-            int attempts = 0;
-
-            var selectedCat = GetRandomCatData(catTypes);
-
-            bool positionFound = false;
-
-            while (attempts < 100)
-            {
-                float zPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
-                float xPosition = Random.Range(-4f, 4f);
-                newPosition = new Vector3(xPosition, 0, zPosition);
-                attempts++;
-
-                if (IsPositionValid(newPosition, catPositions, selectedCat.safeRadius) &&
-                    IsPositionValid(newPosition, allPositions, selectedCat.safeRadius))
-                {
-                    catPositions.Add(newPosition);
-                    allPositions.Add(newPosition);
-                    Instantiate(selectedCat.catPrefab, newPosition, Quaternion.identity, spawnParent);
-                    positionFound = true;
-                    break;
-                }
-            }
-
-            if (!positionFound)
-            {
-                Debug.LogWarning($"Failed to place cat after 100 attempts in segment {i + 1}.");
-            }
-        }
-
-        return catPositions;
-    }
-
-    private void SpawnObstacles(int totalObstacleCount, float roadLength, List<LevelData.ObstacleData> obstacleTypes, List<Vector3> allPositions)
-    {
-        if (obstacleTypes == null || obstacleTypes.Count == 0)
-        {
-            Debug.LogError("No obstacle types available.");
-            return;
-        }
-
-        List<Vector3> obstaclePositions = new List<Vector3>();
-        float effectiveRoadLength = roadLength - startBuffer - endBuffer;
-        float segmentLength = effectiveRoadLength / totalObstacleCount;
-
-        for (int i = 0; i < totalObstacleCount; i++)
-        {
-            Vector3 newPosition;
-            int attempts = 0;
-
-            var selectedObstacle = GetRandomObstacleData(obstacleTypes);
-
-            bool positionFound = false;
-
-            while (attempts < 100)
-            {
-                float zPosition = Random.Range(i * segmentLength + startBuffer, (i + 1) * segmentLength + startBuffer);
-                float xPosition = Random.Range(-4f, 4f);
-                newPosition = new Vector3(xPosition, 0, zPosition);
-                attempts++;
-
-                if (IsPositionValid(newPosition, obstaclePositions, selectedObstacle.safeRadius) &&
-                    IsPositionValid(newPosition, allPositions, selectedObstacle.safeRadius))
-                {
-                    obstaclePositions.Add(newPosition);
-                    allPositions.Add(newPosition);
-                    Instantiate(selectedObstacle.obstaclePrefab, newPosition, Quaternion.identity, spawnParent);
-                    positionFound = true;
-                    break;
-                }
-            }
-
-            if (!positionFound)
-            {
-                Debug.LogWarning($"Failed to place obstacle after 100 attempts in segment {i + 1}.");
-            }
         }
     }
 
@@ -169,20 +198,5 @@ public class LevelLoader : MonoBehaviour
     {
         int randomIndex = Random.Range(0, obstacleTypes.Count);
         return obstacleTypes[randomIndex];
-    }
-
-    private bool IsPositionValid(Vector3 position, List<Vector3> existingPositions, float safeRadius)
-    {
-        float safeRadiusSquared = safeRadius * safeRadius;
-
-        foreach (var existing in existingPositions)
-        {
-            if ((position - existing).sqrMagnitude < safeRadiusSquared)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

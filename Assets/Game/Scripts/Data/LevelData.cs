@@ -9,20 +9,20 @@ public class LevelData : ScriptableObject
     public class CatData
     {
         public GameObject catPrefab;
-        public float safeRadius;
+        public Vector2Int sizeInGrid;
     }
 
     [Serializable]
     public class ObstacleData
     {
         public GameObject obstaclePrefab;
-        public float safeRadius;
+        public Vector2Int sizeInGrid;
     }
 
     [Serializable]
     public class Level
     {
-        public float roadLength;
+        public int roadLength;
         public int catCount;
         public int obstacleCount;
 

@@ -66,7 +66,7 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button("Add New Level"))
         {
-            levelData.levels.Add(new LevelData.Level {});
+            levelData.levels.Add(new LevelData.Level { });
         }
 
         EditorGUILayout.EndVertical();
@@ -86,7 +86,7 @@ public class LevelEditor : EditorWindow
         levelDetailsScrollPos = EditorGUILayout.BeginScrollView(levelDetailsScrollPos, GUILayout.Height(300));
 
         var level = levelData.levels[selectedLevelIndex];
-        level.roadLength = EditorGUILayout.FloatField("Road Length", level.roadLength);
+        level.roadLength = EditorGUILayout.IntField("Road Length", level.roadLength);
 
         DrawCatConfiguration(level);
         DrawObstacleConfiguration(level);
@@ -104,21 +104,21 @@ public class LevelEditor : EditorWindow
         {
             var cat = level.cats[i];
 
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical("box");
             cat.catPrefab = (GameObject)EditorGUILayout.ObjectField("Cat Prefab", cat.catPrefab, typeof(GameObject), false);
-            cat.safeRadius = EditorGUILayout.FloatField("Safe Radius", cat.safeRadius);
+            cat.sizeInGrid = EditorGUILayout.Vector2IntField("Size In Grid", cat.sizeInGrid);
 
             if (GUILayout.Button("Remove", GUILayout.Width(80)))
             {
                 level.cats.RemoveAt(i);
                 break;
             }
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
         }
 
         if (GUILayout.Button("Add New Cat Type"))
         {
-            level.cats.Add(new LevelData.CatData { catPrefab = null, safeRadius = 5f });
+            level.cats.Add(new LevelData.CatData { catPrefab = null, sizeInGrid = new Vector2Int(1, 1) });
         }
     }
 
@@ -131,21 +131,21 @@ public class LevelEditor : EditorWindow
         {
             var obstacle = level.obstacles[i];
 
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical("box");
             obstacle.obstaclePrefab = (GameObject)EditorGUILayout.ObjectField("Obstacle Prefab", obstacle.obstaclePrefab, typeof(GameObject), false);
-            obstacle.safeRadius = EditorGUILayout.FloatField("Safe Radius", obstacle.safeRadius);
+            obstacle.sizeInGrid = EditorGUILayout.Vector2IntField("Size In Grid", obstacle.sizeInGrid);
 
             if (GUILayout.Button("Remove", GUILayout.Width(80)))
             {
                 level.obstacles.RemoveAt(i);
                 break;
             }
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
         }
 
         if (GUILayout.Button("Add New Obstacle Type"))
         {
-            level.obstacles.Add(new LevelData.ObstacleData { obstaclePrefab = null, safeRadius = 5f });
+            level.obstacles.Add(new LevelData.ObstacleData { obstaclePrefab = null, sizeInGrid = new Vector2Int(1, 1) });
         }
     }
 }

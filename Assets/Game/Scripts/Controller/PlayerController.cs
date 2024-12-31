@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         Vector3 inputDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
 
         Vector3 movement = inputDirection.normalized * GameManager.Instance.playerData.speed;
-        _rigidbody.linearVelocity = new Vector3(movement.x, _rigidbody.linearVelocity.y, movement.z);
+        _rigidbody.velocity = new Vector3(movement.x, _rigidbody.velocity.y, movement.z);
 
         if (inputDirection != Vector3.zero)
         {

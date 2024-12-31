@@ -38,12 +38,12 @@ public class UIEarnMoney : MonoBehaviour, IPointerClickHandler
     public void MovePlayerInSceneMenu()
     {
         Vector3 movement = Vector3.forward * GameManager.Instance.playerData.speed * 10f;
-        _playerRigidbody.linearVelocity = new Vector3(movement.x, _playerRigidbody.linearVelocity.y, movement.z);
+        _playerRigidbody.velocity = new Vector3(movement.x, _playerRigidbody.velocity.y, movement.z);
     }
 
     private void StopPlayer()
     {
-        _playerRigidbody.linearVelocity = Vector3.zero;
+        _playerRigidbody.velocity = Vector3.zero;
         playerAnimator.SetBool("isRunning", false);
     }
 }
