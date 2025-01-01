@@ -2,9 +2,35 @@ using UnityEngine;
 
 public class StaminaUpgradeButton : BaseButton
 {
-    public override void SetupUI(PlayerData playerData)
+    protected override void Awake()
     {
-        currentValue.text = $"{Mathf.CeilToInt(playerData.stamina)}";
-        upgradeCost.text = UpgradeManager.Instance.GetStaminaUpgradeCost(playerData.staminaUpgradeCount).ToString();
+        base.Awake();
+        GameManager.Instance.OnMoneyChanged += CheckStatusButton;
+        GameManager.Instance.OnStaminaChanged += UpdateText;
+
+        float currentMoney = GameManager.Instance.PlayerData.money;
+        CheckStatusButton(currentMoney);
+
+        UpdateText(GameManager.Instance.PlayerData.stamina);
+    }
+
+    protected override void UpdateText(float playerStasValue)
+    {
+        currentValue.text = $"{Mathf.CeilToInt(playerStasValue)}";
+        upgradeCost.text = UpgradeManager.Instance.GetStaminaUpgradeCost(GameManager.Instance.PlayerData.staminaUpgradeCount).ToString();
+    }
+
+    private void CheckStatusButton(float money)
+    {
+        float staminaUpgradeCost = UpgradeManager.Instance.GetStaminaUpgradeCost(GameManager.Instance.PlayerData.staminaUpgradeCount);
+
+        if (money < staminaUpgradeCost)
+        {
+            SetStatusOfButton(false);
+        }
+        else
+        {
+            SetStatusOfButton(true);
+        }
     }
 }

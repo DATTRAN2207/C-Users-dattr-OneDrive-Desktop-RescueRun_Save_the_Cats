@@ -2,9 +2,35 @@ using UnityEngine;
 
 public class IncomeUpgradeButton : BaseButton
 {
-    public override void SetupUI(PlayerData playerData)
+    protected override void Awake()
     {
-        currentValue.text = $"{Mathf.CeilToInt(playerData.income)}";
-        upgradeCost.text = UpgradeManager.Instance.GetIncomeUpgradeCost(playerData.incomeUpgradeCount).ToString();
+        base.Awake();
+        GameManager.Instance.OnMoneyChanged += CheckStatusButton;
+        GameManager.Instance.OnIncomeChanged += UpdateText;
+
+        float currentMoney = GameManager.Instance.PlayerData.money;
+        CheckStatusButton(currentMoney);
+
+        UpdateText(GameManager.Instance.PlayerData.income);
+    }
+
+    protected override void UpdateText(float playerStasValue)
+    {
+        currentValue.text = $"{Mathf.CeilToInt(playerStasValue)}";
+        upgradeCost.text = UpgradeManager.Instance.GetIncomeUpgradeCost(GameManager.Instance.PlayerData.incomeUpgradeCount).ToString();
+    }
+
+    private void CheckStatusButton(float money)
+    {
+        float incomeUpgradeCost = UpgradeManager.Instance.GetIncomeUpgradeCost(GameManager.Instance.PlayerData.incomeUpgradeCount);
+
+        if (money < incomeUpgradeCost)
+        {
+            SetStatusOfButton(false);
+        }
+        else
+        {
+            SetStatusOfButton(true);
+        }
     }
 }

@@ -16,11 +16,11 @@ public class LevelLoader : MonoBehaviour
     private int[,] grid;
     private int roadLength;
     private int roadWidth = 10;
-    private int laneWidth = 5;
+    private int laneWidth = 2;
 
     private void Start()
     {
-        LoadLevel(GameManager.Instance.playerData.level);
+        LoadLevel(GameManager.Instance.PlayerData.level);
     }
 
     public void LoadLevel(int levelIndex)
@@ -44,87 +44,168 @@ public class LevelLoader : MonoBehaviour
 
         GetRandomPositionToEndPoint(level);
 
-        //PlaceObstacles(level);
-
         SetupRoad(roadLength);
 
         SpawnTerrain(roadLength);
     }
 
-    private void PlaceObstacles(LevelData.Level level)
+    private void GetRandomPositionToEndPoint(LevelData.Level level)
     {
-        for (int i = 0; i < level.obstacleCount; i++)
+        int effectiveLength = roadLength - startBuffer - endBuffer;
+        int segmentLength = effectiveLength / level.ziczacCount;
+
+        int currentZ = startBuffer;
+        Vector2Int? previousCatPosition = null;
+
+        for (int i = 0; i < level.ziczacCount; i++)
         {
-            var selectedObstacle = GetRandomObstacleData(level.obstacles);
-
-            bool placed = false;
-
-            for (int attempt = 0; attempt < 100; attempt++)
+            int currentLaneStart = Random.Range(1, roadWidth - 1);
+            if (previousCatPosition.HasValue)
             {
-                int startX = Random.Range(0, roadWidth - selectedObstacle.sizeInGrid.x + 1);
-                int startZ = Random.Range(0, roadLength - selectedObstacle.sizeInGrid.y + 1);
-
-                if (CanPlaceObstacle(startX, startZ, selectedObstacle.sizeInGrid))
-                {
-                    PlaceObstacleOnGrid(startX, startZ, selectedObstacle);
-
-                    Vector3 position = new Vector3(startX + selectedObstacle.sizeInGrid.x / 2f, 0f, startZ + selectedObstacle.sizeInGrid.y / 2f);
-                    Instantiate(selectedObstacle.obstaclePrefab, position, Quaternion.identity, spawnParent);
-
-                    placed = true;
-                    break;
-                }
+                MarkLineInGrid(previousCatPosition.Value, new Vector2Int(currentLaneStart, currentZ));
+                PlaceObstacles(previousCatPosition.Value, new Vector2Int(currentLaneStart, currentZ), level);
             }
 
-            if (!placed)
-            {
-                Debug.LogWarning($"Failed to place obstacle {i + 1}. Grid may be full.");
-            }
+            previousCatPosition = new Vector2Int(currentLaneStart, currentZ);
+            currentZ += segmentLength;
+        }
+
+        for (int i = 0; i < level.catCount; i++)
+        {
+            RandomCatPos(level);
         }
     }
 
-    private bool CanPlaceObstacle(int startX, int startZ, Vector2Int size)
+    private void RandomCatPos(LevelData.Level level)
     {
-        for (int x = startX; x < startX + size.x; x++)
+        List<Vector2Int> lanePositions = new List<Vector2Int>();
+
+        for (int z = 0; z < roadLength; z++)
         {
-            for (int z = startZ; z < startZ + size.y; z++)
+            for (int x = 0; x < roadWidth; x++)
             {
-                if (x >= roadWidth || z >= roadLength || grid[x, z] != 0)
+                if (grid[x, z] == 1)
                 {
-                    return false;
+                    lanePositions.Add(new Vector2Int(x, z));
                 }
             }
         }
+
+        if (lanePositions.Count == 0)
+        {
+            Debug.LogError("No valid lane positions found in the grid.");
+            return;
+        }
+
+        Vector2Int randomLanePosition = lanePositions[Random.Range(0, lanePositions.Count)];
+
+        var selectedCat = GetRandomCatData(level.cats);
+        Instantiate(selectedCat.catPrefab, new Vector3(randomLanePosition.x, 0f, randomLanePosition.y), Quaternion.identity, spawnParent);
+
+        grid[randomLanePosition.x, randomLanePosition.y] = 3;
+    }
+
+    private void PlaceObstacles(Vector2Int start, Vector2Int end, LevelData.Level level)
+    {
+        int minZ = Mathf.Min(start.y, end.y);
+        int maxZ = Mathf.Max(start.y, end.y);
+
+        List<Vector2Int> emptyPositions = new List<Vector2Int>();
+
+        for (int z = minZ; z <= maxZ - 1; z++)
+        {
+            for (int x = 0; x < roadWidth; x++)
+            {
+                if (grid[x, z] == 0)
+                {
+                    emptyPositions.Add(new Vector2Int(x, z));
+                }
+            }
+        }
+
+        GetRandomPositionsOfSizeObstacle(emptyPositions, level, level.obstacleCount);
+    }
+
+    private List<Vector2Int> GetRandomPositionsOfSizeObstacle(List<Vector2Int> emptyPositions, LevelData.Level level, int count)
+    {
+        List<Vector2Int> placedPositions = new List<Vector2Int>();
+        int attempts = 100;
+
+        while (placedPositions.Count < count && attempts > 0)
+        {
+            var obstacle = GetRandomObstacleData(level.obstacles);
+
+            attempts--;
+
+            int randomIndex = Random.Range(0, emptyPositions.Count);
+            Vector2Int startPosition = emptyPositions[randomIndex];
+
+            if (CanPlaceObstacle(startPosition, obstacle.sizeInGrid))
+            {
+                MarkObstacleOnGrid(startPosition, obstacle.sizeInGrid);
+                Instantiate(obstacle.obstaclePrefab, new Vector3(startPosition.x, 0f, startPosition.y), Quaternion.identity, spawnParent);
+                placedPositions.Add(startPosition);
+            }
+        }
+
+        return placedPositions;
+    }
+
+    private bool CanPlaceObstacle(Vector2Int start, Vector2Int sizeInGrid)
+    {
+        if (start.x + sizeInGrid.x > roadWidth || start.y + sizeInGrid.y > roadLength)
+            return false;
+
+        for (int x = start.x; x < start.x + sizeInGrid.x; x++)
+        {
+            for (int z = start.y; z < start.y + sizeInGrid.y; z++)
+            {
+                if (grid[x, z] != 0)
+                    return false;
+            }
+        }
+
         return true;
     }
 
-    private void PlaceObstacleOnGrid(int startX, int startZ, LevelData.ObstacleData obstacle)
+    private void MarkObstacleOnGrid(Vector2Int start, Vector2Int sizeInGrid)
     {
-        for (int x = startX; x < startX + obstacle.sizeInGrid.x; x++)
+        for (int x = start.x; x < start.x + sizeInGrid.x; x++)
         {
-            for (int z = startZ; z < startZ + obstacle.sizeInGrid.y; z++)
+            for (int z = start.y; z < start.y + sizeInGrid.y; z++)
             {
                 grid[x, z] = 2;
             }
         }
     }
 
-    private void GetRandomPositionToEndPoint(LevelData.Level level)
+    private void MarkLineInGrid(Vector2Int start, Vector2Int end)
     {
-        int effectiveLength = roadLength - startBuffer - endBuffer;
+        float deltaX = end.x - start.x;
+        float deltaZ = end.y - start.y;
+        int minZ = Mathf.Min(start.y, end.y);
+        int maxZ = Mathf.Max(start.y, end.y);
 
-        int segmentLength = effectiveLength / level.catCount;
-
-        int currentZ = startBuffer;
-
-        for (int i = 0; i < level.catCount; i++)
+        if (deltaX == 0)
         {
-            int currentLaneStart = Random.Range(1, roadWidth - 1);
-            grid[currentLaneStart, currentZ] = 3;
-            var selectedCat = GetRandomCatData(level.cats);
-            Instantiate(selectedCat.catPrefab, new Vector3(currentLaneStart, 0f, currentZ), Quaternion.identity, spawnParent);
-            GetLaneWidth(currentLaneStart, currentZ);
-            currentZ += segmentLength;
+            for (int z = minZ; z <= maxZ; z++)
+            {
+                grid[start.x, z] = 1;
+                GetLaneWidth(start.x, z);
+            }
+            return;
+        }
+
+        float a = deltaZ / deltaX;
+        float b = start.y - a * start.x;
+
+        for (int z = minZ; z <= maxZ; z++)
+        {
+            float x = (z - b) / a;
+            int xRounded = Mathf.RoundToInt(x);
+
+            grid[xRounded, z] = 1;
+            GetLaneWidth(xRounded, z);
         }
     }
 
@@ -198,5 +279,71 @@ public class LevelLoader : MonoBehaviour
     {
         int randomIndex = Random.Range(0, obstacleTypes.Count);
         return obstacleTypes[randomIndex];
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (grid == null) return;
+
+        for (int z = 0; z < roadLength; z++)
+        {
+            for (int x = 0; x < roadWidth; x++)
+            {
+                Vector3 position = new Vector3(x, 0, z);
+                Color color;
+
+                switch (grid[x, z])
+                {
+                    case 1: // Lane
+                        color = Color.green;
+                        break;
+                    case 2: // Obstacle
+                        color = Color.red;
+                        break;
+                    case 3: // Cat
+                        color = Color.yellow;
+                        break;
+                    default: // Empty
+                        color = Color.gray;
+                        break;
+                }
+
+                DrawGridCell(position, color);
+            }
+        }
+    }
+
+    private void DrawGridCell(Vector3 position, Color color)
+    {
+        Gizmos.color = color;
+        Gizmos.DrawCube(position + new Vector3(0.5f, 0, 0.5f), new Vector3(1, 0.1f, 1));
+    }
+
+    public void ClearLevel()
+    {
+        if (grid != null)
+        {
+            for (int z = 0; z < roadLength; z++)
+            {
+                for (int x = 0; x < roadWidth; x++)
+                {
+                    grid[x, z] = 0;
+                }
+            }
+        }
+
+        for (int i = spawnParent.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(spawnParent.GetChild(i).gameObject);
+        }
+
+        Debug.Log("Level cleared.");
+    }
+
+    public void ReloadLevel(int levelIndex)
+    {
+        ClearLevel();
+        LoadLevel(levelIndex);
+        Debug.Log($"Level {levelIndex} reloaded.");
     }
 }

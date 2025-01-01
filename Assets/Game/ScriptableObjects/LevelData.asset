@@ -14,154 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - roadLength: 400
+    ziczacCount: 5
     catCount: 5
-    obstacleCount: 10
+    obstacleCount: 1
     cats:
     - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
       sizeInGrid: {x: 1, y: 1}
     - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
       sizeInGrid: {x: 1, y: 1}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 1, y: 2}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 2, y: 3}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 1, y: 4}
-  - roadLength: 0
-    catCount: 30
-    obstacleCount: 50
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
     - catPrefab: {fileID: 4273581905617901186, guid: 15680bf7abc1178479f79d12bb036d3b, type: 3}
-      sizeInGrid: {x: 0, y: 0}
+      sizeInGrid: {x: 1, y: 1}
+    - catPrefab: {fileID: 7306529933943326794, guid: ffc1a674742cae14a898aa21d852b45e, type: 3}
+      sizeInGrid: {x: 1, y: 1}
+    - catPrefab: {fileID: 384411063696801897, guid: 324b3909608f7254ba0514127089ce49, type: 3}
+      sizeInGrid: {x: 1, y: 1}
     obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
+    - obstaclePrefab: {fileID: 5992607310425485767, guid: 0c82dae9eb6bc1f4cb2cc10376f56451, type: 3}
+      sizeInGrid: {x: 3, y: 1}
+    - obstaclePrefab: {fileID: 5374594655610241277, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      sizeInGrid: {x: 5, y: 2}
+    - obstaclePrefab: {fileID: 7567069978588755324, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      sizeInGrid: {x: 4, y: 3}
+    - obstaclePrefab: {fileID: 3072892983371881412, guid: c511239759d993146ae79aabe41b5184, type: 3}
+      sizeInGrid: {x: 7, y: 4}
+  - roadLength: 1000
+    ziczacCount: 10
+    catCount: 6
+    obstacleCount: 3
     cats:
     - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
+      sizeInGrid: {x: 1, y: 1}
     - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
+      sizeInGrid: {x: 1, y: 1}
+    - catPrefab: {fileID: 4273581905617901186, guid: 15680bf7abc1178479f79d12bb036d3b, type: 3}
+      sizeInGrid: {x: 1, y: 1}
     obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-  - roadLength: 0
-    catCount: 10
-    obstacleCount: 10
-    cats:
-    - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - catPrefab: {fileID: 4051418755877081678, guid: bb523859d0dd46042b279146f0808870, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    obstacles:
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: f5f0697ed69d91249a7bd8b5b6edddbf, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
-      sizeInGrid: {x: 0, y: 0}
-    - obstaclePrefab: {fileID: 1729786173612144314, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
-      sizeInGrid: {x: 0, y: 0}
+    - obstaclePrefab: {fileID: 5992607310425485767, guid: 0c82dae9eb6bc1f4cb2cc10376f56451, type: 3}
+      sizeInGrid: {x: 3, y: 1}
+    - obstaclePrefab: {fileID: 5374594655610241277, guid: b2e23a46334abfe45a5b031c2d6e56df, type: 3}
+      sizeInGrid: {x: 5, y: 2}
+    - obstaclePrefab: {fileID: 7567069978588755324, guid: 691b985b27db6d4429a35b291e5c8cd4, type: 3}
+      sizeInGrid: {x: 4, y: 3}
+    - obstaclePrefab: {fileID: 3072892983371881412, guid: c511239759d993146ae79aabe41b5184, type: 3}
+      sizeInGrid: {x: 7, y: 4}

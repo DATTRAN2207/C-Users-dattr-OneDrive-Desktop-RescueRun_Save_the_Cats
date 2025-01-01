@@ -87,6 +87,7 @@ public class LevelEditor : EditorWindow
 
         var level = levelData.levels[selectedLevelIndex];
         level.roadLength = EditorGUILayout.IntField("Road Length", level.roadLength);
+        level.ziczacCount = EditorGUILayout.IntField("Ziczac Count", level.ziczacCount);
 
         DrawCatConfiguration(level);
         DrawObstacleConfiguration(level);
@@ -125,7 +126,7 @@ public class LevelEditor : EditorWindow
     private void DrawObstacleConfiguration(LevelData.Level level)
     {
         EditorGUILayout.LabelField("Obstacle Configuration", EditorStyles.boldLabel);
-        level.obstacleCount = EditorGUILayout.IntField("Obstacle Count", level.obstacleCount);
+        level.obstacleCount = EditorGUILayout.IntField("Obstacle per Ziczac", level.obstacleCount);
 
         for (int i = 0; i < level.obstacles.Count; i++)
         {

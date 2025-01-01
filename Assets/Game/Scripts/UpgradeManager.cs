@@ -31,8 +31,8 @@ public class UpgradeManager : MonoBehaviour
 
         if (playerData.money >= upgradeCost)
         {
-            playerData.stamina += playerData.stamina * 5 / 100;
-            playerData.staminaUpgradeCount++;
+            GameManager.Instance.UpdatePlayerStamina(playerData.stamina * 5 / 100);
+
             return upgradeCost;
         }
 

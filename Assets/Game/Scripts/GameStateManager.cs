@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,6 +7,7 @@ using UnityEngine.SceneManagement;
 public enum GameState
 {
     CameraIntro,
+    Preparing,
     Playing,
     Failed,
     LevelComplete
@@ -14,14 +17,12 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
-    public GameState currentState;
-
     [SerializeField] private PlayerController playerController;
     [SerializeField] private CinemachineCamera introCamera;
     [SerializeField] private CinemachineCamera playerCamera;
-    [SerializeField] private Transform rescueTarget;
-    
-    private float setupDuration = 1f;
+    [SerializeField] private TsunamiBehaviour tsunami;
+    [SerializeField] private Transform endPoint;
+    [SerializeField] private UIRunScene uIRunScene;
 
     private void Awake()
     {
@@ -36,12 +37,13 @@ public class GameStateManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
-        currentState = newState;
-
         switch (newState)
         {
             case GameState.CameraIntro:
                 SetupPhase();
+                break;
+            case GameState.Preparing:
+                PreparingPhase();
                 break;
             case GameState.Playing:
                 GameplayPhase();
@@ -62,33 +64,51 @@ public class GameStateManager : MonoBehaviour
 
         playerController.enabled = false;
 
-        Invoke(nameof(StartGameplay), setupDuration);
+        Invoke(nameof(StartPreparing), 5f);
     }
 
-    private void StartGameplay()
+    private void StartPreparing()
     {
-        ChangeState(GameState.Playing);
+        ChangeState(GameState.Preparing);
     }
 
-    private void GameplayPhase()
+    private void PreparingPhase()
     {
         introCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
 
+        StartCoroutine(WaitForCinemachineBlend(() =>
+        {
+            uIRunScene.ShowUIBoostSpeed();
+            uIRunScene.OnUnShowUIBoostSpeed += GameplayPhase;
+        }));
+    }
+
+    private IEnumerator WaitForCinemachineBlend(Action onComplete)
+    {
+        yield return new WaitForSeconds(3f);
+
+        onComplete?.Invoke();
+    }
+
+    private void GameplayPhase()
+    {
         playerController.enabled = true;
+
+        tsunami.StartMove(endPoint);
     }
 
     private void FailedPhase()
     {
         playerController.enabled = false;
 
-
+        SceneManager.LoadScene("MenuScene");
     }
 
     private void CompletePhase()
     {
         playerController.enabled = false;
-        GameManager.Instance.playerData.level += 1;
+        GameManager.Instance.PlayerData.level += 1;
         SceneManager.LoadScene("MenuScene");
     }
 }

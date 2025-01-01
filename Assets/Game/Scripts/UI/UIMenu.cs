@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,11 +14,12 @@ public class UIMenu : MonoBehaviour
 
     private void Start()
     {
-        SetupUI();
+        GameManager.Instance.OnMoneyChanged += UpdateMoneyText;
+        UpdateMoneyText(GameManager.Instance.PlayerData.money);
 
-        staminaUpgradeButton.GetComponent<Button>().onClick.AddListener(UpgradeStamina);
-        speedUpgradeButton.GetComponent<Button>().onClick.AddListener(UpgradeSpeed);
-        incomeUpgradeButton.GetComponent<Button>().onClick.AddListener(UpgradeIncome);
+        staminaUpgradeButton.button.onClick.AddListener(UpgradeStamina);
+        speedUpgradeButton.button.onClick.AddListener(UpgradeSpeed);
+        incomeUpgradeButton.button.onClick.AddListener(UpgradeIncome);
 
         raceButton.onClick.AddListener(LoadRunScene);
     }
@@ -29,57 +29,38 @@ public class UIMenu : MonoBehaviour
         SceneManager.LoadScene("RunScene");
     }
 
-    private void SetupUI()
-    {
-        var playerData = GameManager.Instance.playerData;
-        staminaUpgradeButton.SetupUI(playerData);
-        speedUpgradeButton.SetupUI(playerData);
-        incomeUpgradeButton.SetupUI(playerData);
-
-        SetupMoneyUI(playerData);
-    }
-
     public void UpgradeStamina()
     {
-        var playerData = GameManager.Instance.playerData;
-        var upgradeCost = UpgradeManager.Instance.UpgradeStamina(playerData);
+        float upgradeCost = UpgradeManager.Instance.UpgradeStamina(GameManager.Instance.PlayerData);
 
-        if (playerData.money >= upgradeCost)
+        if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            playerData.money -= upgradeCost;
-            staminaUpgradeButton.SetupUI(playerData);
-            SetupMoneyUI(playerData);
+            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
         }
     }
 
     public void UpgradeSpeed()
     {
-        var playerData = GameManager.Instance.playerData;
-        var upgradeCost = UpgradeManager.Instance.UpgradeSpeed(playerData);
+        var upgradeCost = UpgradeManager.Instance.UpgradeSpeed(GameManager.Instance.PlayerData);
 
-        if (playerData.money >= upgradeCost)
+        if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            playerData.money -= upgradeCost;
-            speedUpgradeButton.SetupUI(playerData);
-            SetupMoneyUI(playerData);
+            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
         }
     }
 
     public void UpgradeIncome()
     {
-        var playerData = GameManager.Instance.playerData;
-        var upgradeCost = UpgradeManager.Instance.UpgradeIncome(playerData);
+        var upgradeCost = UpgradeManager.Instance.UpgradeIncome(GameManager.Instance.PlayerData);
 
-        if (playerData.money >= upgradeCost)
+        if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            playerData.money -= upgradeCost;
-            incomeUpgradeButton.SetupUI(playerData);
-            SetupMoneyUI(playerData);
+            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
         }
     }
 
-    public void SetupMoneyUI(PlayerData playerData)
+    private void UpdateMoneyText(float playerMoney)
     {
-        currentMoney.text = $"{playerData.money:F2}$";
+        currentMoney.text = $"{playerMoney:F2}$";
     }
 }
