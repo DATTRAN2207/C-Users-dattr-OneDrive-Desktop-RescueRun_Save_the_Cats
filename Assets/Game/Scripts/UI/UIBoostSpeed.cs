@@ -1,7 +1,8 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.InputAction;
 
 public class UIBoostSpeed : MonoBehaviour
 {
@@ -14,57 +15,86 @@ public class UIBoostSpeed : MonoBehaviour
 
     private UIMenuInputAction uIMenuInputAction;
     private float currentStamina = 0f;
-    private float speedOfPlayer = 0f;
     private bool isRecoveringStamina = false;
+    private float currentSpeed;
+    private Tween speedTween;
+    private Tween staminaTween;
+    private float lastTouchTime = 0f;
+    private float quickTouchThreshold = 3f;
+    private bool isQuickTouch = false;
+    private int quickTouchCount = 0;
+    private bool isAtMaxSpeed = false;
 
     private void Start()
     {
         var playerData = GameManager.Instance.PlayerData;
 
         currentStamina = playerData.stamina;
-        speedOfPlayer = playerData.speed;
-        SetupMaxStamina(currentStamina);
-        UpdateSpeedText(speedOfPlayer);
+        UpdateMaxStaminaText(currentStamina);
+        UpdateMaxSpeedText(playerData.speed);
         sliderStamina.value = currentStamina;
 
         sliderStamina.onValueChanged.AddListener(UpdateStaminaText);
-        GameManager.Instance.OnStaminaChanged += SetupMaxStamina;
-        GameManager.Instance.OnSpeedChanged += UpdateSpeedText;
+        GameManager.Instance.OnStaminaChanged += UpdateMaxStaminaText;
+        GameManager.Instance.OnSpeedChanged += UpdateMaxSpeedText;
 
         uIMenuInputAction = new UIMenuInputAction();
         uIMenuInputAction.Gameplay.Tap.performed += OnTapPerformed;
+        uIMenuInputAction.Gameplay.Tap.canceled += OnTapCanceled;
         uIMenuInputAction.Gameplay.Enable();
     }
 
     private void OnDestroy()
     {
         sliderStamina.onValueChanged.RemoveListener(UpdateStaminaText);
-        GameManager.Instance.OnStaminaChanged -= SetupMaxStamina;
-        GameManager.Instance.OnSpeedChanged -= UpdateSpeedText;
+        GameManager.Instance.OnStaminaChanged -= UpdateMaxStaminaText;
+        GameManager.Instance.OnSpeedChanged -= UpdateMaxSpeedText;
 
         uIMenuInputAction.Gameplay.Tap.performed -= OnTapPerformed;
+        uIMenuInputAction.Gameplay.Tap.canceled -= OnTapCanceled;
         uIMenuInputAction.Gameplay.Disable();
     }
 
-    private void Update()
+    private void RecoverStamina()
     {
-        HandleRecovery();
-    }
+        if (staminaTween != null && staminaTween.IsPlaying())
+            return;
 
-    private void HandleRecovery()
-    {
-        if (isRecoveringStamina && currentStamina < GameManager.Instance.PlayerData.stamina)
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.AppendInterval(2f);
+
+        sequence.AppendCallback(() =>
         {
-            currentStamina += 1f * Time.deltaTime;
-            currentStamina = Mathf.Min(currentStamina, GameManager.Instance.PlayerData.stamina);
-            sliderStamina.value = currentStamina;
+            isRecoveringStamina = true;
+        });
 
-            if (currentStamina >= GameManager.Instance.PlayerData.stamina)
+        float recoveryDuration = (GameManager.Instance.PlayerData.stamina - currentStamina) * 0.1f;
+
+        sequence.Append(DOTween.To(
+            () => currentStamina,
+            x =>
             {
-                isRecoveringStamina = false;
-                StopPlayer();
-            }
-        }
+                currentStamina = Mathf.Min(x, GameManager.Instance.PlayerData.stamina);
+                sliderStamina.value = Mathf.FloorToInt(currentStamina);
+                UpdateStaminaText(currentStamina);
+            },
+            GameManager.Instance.PlayerData.stamina,
+            recoveryDuration
+        ).SetEase(Ease.Linear));
+
+        sequence.OnComplete(() =>
+        {
+            currentStamina = Mathf.FloorToInt(GameManager.Instance.PlayerData.stamina);
+            isRecoveringStamina = false;
+
+            quickTouchCount = 0;
+            isAtMaxSpeed = false;
+            isQuickTouch = false;
+        });
+
+
+        staminaTween = sequence;
     }
 
     private void UpdateStaminaText(float currentStamina)
@@ -72,53 +102,118 @@ public class UIBoostSpeed : MonoBehaviour
         staminaText.text = $"{Mathf.CeilToInt(currentStamina)}/" + Mathf.CeilToInt(sliderStamina.maxValue).ToString("F0");
     }
 
-    private void UpdateSpeedText(float speed)
+    private void UpdateMaxSpeedText(float speed)
     {
-        speedOfPlayer = speed;
         maxBoostSpeed.text = (speed * 10f).ToString("F1");
     }
 
-    private void SetupMaxStamina(float staminaOfPlayer)
+    private void UpdateMaxStaminaText(float staminaOfPlayer)
     {
         sliderStamina.maxValue = staminaOfPlayer;
         staminaText.text = $"{Mathf.CeilToInt(currentStamina)}/" + Mathf.CeilToInt(staminaOfPlayer).ToString("F0");
     }
 
-    private void OnTapPerformed(InputAction.CallbackContext context)
+    private void OnTapPerformed(CallbackContext context)
     {
+        speedTween?.Kill();
+
+        float currentTime = Time.time;
+        isQuickTouch = (currentTime - lastTouchTime <= quickTouchThreshold);
+        lastTouchTime = currentTime;
+
         if (isRecoveringStamina)
         {
-            playerAnimator.SetBool("isRunning", true);
-            MovePlayerSlowly();
+            currentSpeed = GameManager.Instance.PlayerData.speed;
+            quickTouchCount = 0;
+            MovePlayer(currentSpeed);
+            return;
+        }
+
+        if (isQuickTouch)
+        {
+            if (!isAtMaxSpeed)
+            {
+                quickTouchCount++;
+                currentSpeed = Mathf.Min(GameManager.Instance.PlayerData.speed * quickTouchCount,
+                                         GameManager.Instance.PlayerData.speed * 10);
+
+                if (quickTouchCount >= 10)
+                {
+                    isAtMaxSpeed = true;
+                }
+            }
         }
         else
         {
-            if (currentStamina >= speedOfPlayer)
-            {
-                currentStamina -= speedOfPlayer;
-                sliderStamina.value = currentStamina;
+            currentSpeed = GameManager.Instance.PlayerData.speed;
+            quickTouchCount = 0;
+            isAtMaxSpeed = false;
+        }
 
-                playerAnimator.SetBool("isRunning", true);
-                MovePlayerQuickly();
-            }
+        if (currentStamina >= GameManager.Instance.PlayerData.speed)
+        {
+            currentStamina -= GameManager.Instance.PlayerData.speed;
+            sliderStamina.value = currentStamina;
+            MovePlayer(currentSpeed);
+        }
+        else
+        {
+            isRecoveringStamina = true;
+            RecoverStamina();
         }
     }
 
-    private void MovePlayerSlowly()
+    private void OnTapCanceled(CallbackContext context)
     {
-        Vector3 movement = Vector3.forward * GameManager.Instance.PlayerData.speed * 5f;
-        _playerRigidbody.linearVelocity = new Vector3(movement.x, _playerRigidbody.linearVelocity.y, movement.z);
+        speedTween?.Kill();
+
+        float decelerationTime = Mathf.Lerp(0.5f, 3f, currentSpeed / (GameManager.Instance.PlayerData.speed * 10));
+
+        speedTween = DOTween.To(() => currentSpeed, x => currentSpeed = x, 0, decelerationTime)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() =>
+            {
+                MovePlayer(currentSpeed);
+            })
+            .OnComplete(() =>
+            {
+                StopPlayer();
+                RecoverStamina();
+            });
     }
 
-    public void MovePlayerQuickly()
+    public void MovePlayer(float speed)
     {
-        Vector3 movement = Vector3.forward * GameManager.Instance.PlayerData.speed * 10f;
-        _playerRigidbody.linearVelocity = new Vector3(movement.x, _playerRigidbody.linearVelocity.y, movement.z);
+        if (playerAnimator == null || _playerRigidbody == null) return;
+        if (speed <= GameManager.Instance.PlayerData.speed * 5f)
+        {
+            playerAnimator.SetBool("isWalking", true);
+            playerAnimator.SetBool("isRunning", false);
+        }
+        else
+        {
+            playerAnimator.SetBool("isWalking", false);
+            playerAnimator.SetBool("isRunning", true);
+        }
+
+        Vector3 movement = Vector3.forward * speed;
+        _playerRigidbody.velocity = new Vector3(movement.x, _playerRigidbody.velocity.y, movement.z);
+
+        UpdateNeedleRotation(speed);
+    }
+
+    private void UpdateNeedleRotation(float speed)
+    {
+        float normalizedSpeed = speed / (GameManager.Instance.PlayerData.speed * 10);
+        float targetAngle = Mathf.Lerp(-90f, 90f, normalizedSpeed);
+
+        clockwise.transform.DORotateQuaternion(Quaternion.Euler(0, 0, targetAngle), 0.2f);
     }
 
     private void StopPlayer()
     {
-        _playerRigidbody.linearVelocity = Vector3.zero;
+        _playerRigidbody.velocity = Vector3.zero;
+        playerAnimator.SetBool("isWalking", false);
         playerAnimator.SetBool("isRunning", false);
     }
 }

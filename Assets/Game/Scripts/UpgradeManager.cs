@@ -50,8 +50,8 @@ public class UpgradeManager : MonoBehaviour
 
         if (playerData.money >= upgradeCost)
         {
-            playerData.speed += 0.1f;
-            playerData.speedUpgradeCount++;
+            GameManager.Instance.UpdatePlayerSpeed(0.1f);
+
             return upgradeCost;
         }
 
@@ -69,8 +69,8 @@ public class UpgradeManager : MonoBehaviour
 
         if (playerData.money >= upgradeCost)
         {
-            playerData.income += 1;
-            playerData.incomeUpgradeCount++;
+            GameManager.Instance.UpdatePlayerIncome(1f);
+
             return upgradeCost;
         }
 

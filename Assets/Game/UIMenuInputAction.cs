@@ -40,8 +40,8 @@ public partial class @UIMenuInputAction: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""f250f7f8-ab6b-4aef-8ca2-4b0576f8c9ba"",
-                    ""path"": ""<Touchscreen>/Press"",
+                    ""id"": ""132c054a-c711-4d39-953f-d29713b986e5"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -51,8 +51,8 @@ public partial class @UIMenuInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8320dc05-b65e-4e9a-a7ff-c9297e52cc51"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""5d5b349a-7d8e-4d64-8e37-dc07675be72e"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

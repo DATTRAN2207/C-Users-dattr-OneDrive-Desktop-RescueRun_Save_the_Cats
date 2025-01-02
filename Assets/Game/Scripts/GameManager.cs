@@ -95,14 +95,18 @@ public class GameManager : MonoBehaviour
         OnStaminaChanged?.Invoke(playerData.stamina);
     }
 
-    public void UpdatePlayerSpeed()
+    public void UpdatePlayerSpeed(float value)
     {
-
+        playerData.speed += value;
+        playerData.speedUpgradeCount++;
+        OnSpeedChanged?.Invoke(playerData.speed);
     }
 
-    public void UpdatePlayerIncome()
+    public void UpdatePlayerIncome(float value)
     {
-
+        playerData.income += value;
+        playerData.incomeUpgradeCount++;
+        OnIncomeChanged?.Invoke(playerData.income);
     }
 
     public void UpdatePlayerMoney(float upgradeCost)

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class SpeedUpgradeButton : BaseButton
 {
     protected override void Awake()
