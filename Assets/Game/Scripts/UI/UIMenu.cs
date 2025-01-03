@@ -11,6 +11,7 @@ public class UIMenu : MonoBehaviour
     [SerializeField] private Button raceButton;
 
     [SerializeField] protected TMP_Text currentMoney;
+    [SerializeField] private UILoading uILoading;
 
     private void Start()
     {
@@ -26,7 +27,11 @@ public class UIMenu : MonoBehaviour
 
     private void LoadRunScene()
     {
-        SceneManager.LoadScene("RunScene");
+        uILoading.gameObject.SetActive(true);
+        uILoading.ShowUILoading(() =>
+        {
+            SceneManager.LoadScene("RunScene");
+        });
     }
 
     public void UpgradeStamina()

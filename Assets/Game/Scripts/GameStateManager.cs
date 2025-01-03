@@ -23,6 +23,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private TsunamiBehaviour tsunami;
     [SerializeField] private Transform endPoint;
     [SerializeField] private UIRunScene uIRunScene;
+    [SerializeField] private UILoading uILoading;
 
     private void Awake()
     {
@@ -91,10 +92,10 @@ public class GameStateManager : MonoBehaviour
         onComplete?.Invoke();
     }
 
-    private void GameplayPhase()
+    private void GameplayPhase(float boostSpeed = 0f)
     {
         playerController.enabled = true;
-
+        playerController.UpdateSpeed(boostSpeed);
         tsunami.StartMove(endPoint);
     }
 
@@ -102,13 +103,22 @@ public class GameStateManager : MonoBehaviour
     {
         playerController.enabled = false;
 
-        SceneManager.LoadScene("MenuScene");
+        uILoading.gameObject.SetActive(true);
+        uILoading.ShowUILoading(() =>
+        {
+            SceneManager.LoadScene("MenuScene");
+        });
     }
 
     private void CompletePhase()
     {
         playerController.enabled = false;
         GameManager.Instance.PlayerData.level += 1;
-        SceneManager.LoadScene("MenuScene");
+
+        uILoading.gameObject.SetActive(true);
+        uILoading.ShowUILoading(() =>
+        {
+            SceneManager.LoadScene("MenuScene");
+        });
     }
 }

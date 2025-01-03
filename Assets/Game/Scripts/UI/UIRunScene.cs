@@ -8,15 +8,15 @@ public class UIRunScene : MonoBehaviour
     [SerializeField] private GameObject joystick;
     [SerializeField] private GameObject halfSpin;
     [SerializeField] private TMP_Text countDownTimer;
-    [SerializeField] private UIBoostSpeed uIBoostSpeed;
+    [SerializeField] private UIBoostSpeedInRunScene uIBoostSpeedInRunScene;
 
-    public Action OnUnShowUIBoostSpeed;
+    public Action<float> OnUnShowUIBoostSpeed;
 
     private Coroutine countdownCoroutine;
 
     private void Awake()
     {
-        uIBoostSpeed.gameObject.SetActive(false);
+        uIBoostSpeedInRunScene.gameObject.SetActive(false);
         joystick.SetActive(false);
         halfSpin.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
@@ -25,7 +25,8 @@ public class UIRunScene : MonoBehaviour
     public void ShowUIBoostSpeed()
     {
         halfSpin.SetActive(true);
-        uIBoostSpeed.gameObject.SetActive(true);
+        uIBoostSpeedInRunScene.gameObject.SetActive(true);
+        //uIBoostSpeed.SetStatus(true);
         countDownTimer.gameObject.SetActive(true);
 
         countdownCoroutine = StartCoroutine(Countdown(3, UnShowUIBoostSpeed));
@@ -56,11 +57,12 @@ public class UIRunScene : MonoBehaviour
             countdownCoroutine = null;
         }
 
-        uIBoostSpeed.gameObject.SetActive(false);
+        //uIBoostSpeed.SetStatus(false);
         countDownTimer.gameObject.SetActive(false);
 
         joystick.SetActive(true);
 
-        OnUnShowUIBoostSpeed?.Invoke();
+        OnUnShowUIBoostSpeed?.Invoke(uIBoostSpeedInRunScene.GetCurrentSpeed());
+        uIBoostSpeedInRunScene.DecaySpeed();
     }
 }

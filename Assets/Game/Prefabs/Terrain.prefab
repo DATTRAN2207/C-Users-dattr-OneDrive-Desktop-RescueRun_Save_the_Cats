@@ -42,7 +42,7 @@ Terrain:
   m_GameObject: {fileID: 4420546346858892803}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 2e0a338b69709be4aa7bca3c628170a2, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 34dcb76c02f4ea544ab561f8917a0e8a, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -51,6 +51,7 @@ Terrain:
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
+  m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
@@ -90,5 +91,5 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 2e0a338b69709be4aa7bca3c628170a2, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 34dcb76c02f4ea544ab561f8917a0e8a, type: 2}
   m_EnableTreeColliders: 1
