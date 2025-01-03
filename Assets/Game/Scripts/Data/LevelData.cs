@@ -24,6 +24,7 @@ public class LevelData : ScriptableObject
     {
         public int roadLength;
         public int ziczacCount;
+        public int laneWidth;
         public int catCount;
         public int obstacleCount;
 

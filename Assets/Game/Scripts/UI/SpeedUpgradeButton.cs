@@ -12,6 +12,12 @@ public class SpeedUpgradeButton : BaseButton
         UpdateText(GameManager.Instance.PlayerData.speed);
     }
 
+    protected override void OnDestroy()
+    {
+        GameManager.Instance.OnMoneyChanged -= CheckStatusButton;
+        GameManager.Instance.OnSpeedChanged -= UpdateText;
+    }
+
     protected override void UpdateText(float playerStasValue)
     {
         currentValue.text = $"{playerStasValue:F1}";

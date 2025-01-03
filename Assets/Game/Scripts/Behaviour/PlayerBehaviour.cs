@@ -26,4 +26,19 @@ public class PlayerBehaviour : MonoBehaviour
         }
         return null;
     }
+
+    public int GetTotalRescuedCats()
+    {
+        int count = 0;
+
+        foreach (var pos in catPositions)
+        {
+            if (pos.Value != null)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

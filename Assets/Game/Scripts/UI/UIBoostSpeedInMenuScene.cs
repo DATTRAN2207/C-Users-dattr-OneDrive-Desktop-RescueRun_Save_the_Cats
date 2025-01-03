@@ -6,6 +6,7 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
 {
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Rigidbody _playerRigidbody;
+    [SerializeField] private MoneyProgress moneyProgress;
 
     protected override void Start()
     {
@@ -77,6 +78,8 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
             isRecoveringStamina = true;
             RecoverStamina();
         }
+
+        moneyProgress.AddMoney(1f);
     }
 
     public override void OnPointerUp(PointerEventData eventData)
@@ -111,7 +114,7 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
         }
 
         Vector3 movement = Vector3.forward * speed;
-        _playerRigidbody.linearVelocity = new Vector3(movement.x, _playerRigidbody.linearVelocity.y, movement.z);
+        _playerRigidbody.velocity = new Vector3(movement.x, _playerRigidbody.velocity.y, movement.z);
 
         UpdateNeedleRotation(speed);
     }
@@ -126,7 +129,7 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
 
     private void StopPlayer()
     {
-        _playerRigidbody.linearVelocity = Vector3.zero;
+        _playerRigidbody.velocity = Vector3.zero;
         playerAnimator.SetBool("isWalking", false);
         playerAnimator.SetBool("isRunning", false);
     }

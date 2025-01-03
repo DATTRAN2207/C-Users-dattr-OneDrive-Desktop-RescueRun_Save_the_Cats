@@ -14,6 +14,12 @@ public class IncomeUpgradeButton : BaseButton
         UpdateText(GameManager.Instance.PlayerData.income);
     }
 
+    protected override void OnDestroy()
+    {
+        GameManager.Instance.OnMoneyChanged -= CheckStatusButton;
+        GameManager.Instance.OnIncomeChanged -= UpdateText;
+    }
+
     protected override void UpdateText(float playerStasValue)
     {
         currentValue.text = $"{Mathf.CeilToInt(playerStasValue)}";

@@ -15,6 +15,7 @@ MonoBehaviour:
   levels:
   - roadLength: 400
     ziczacCount: 5
+    laneWidth: 5
     catCount: 5
     obstacleCount: 1
     cats:
@@ -39,6 +40,7 @@ MonoBehaviour:
       sizeInGrid: {x: 7, y: 4}
   - roadLength: 1000
     ziczacCount: 10
+    laneWidth: 3
     catCount: 6
     obstacleCount: 3
     cats:

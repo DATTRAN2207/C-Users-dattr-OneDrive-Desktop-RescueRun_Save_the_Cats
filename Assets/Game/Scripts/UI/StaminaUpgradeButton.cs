@@ -14,6 +14,12 @@ public class StaminaUpgradeButton : BaseButton
         UpdateText(GameManager.Instance.PlayerData.stamina);
     }
 
+    protected override void OnDestroy()
+    {
+        GameManager.Instance.OnMoneyChanged -= CheckStatusButton;
+        GameManager.Instance.OnStaminaChanged -= UpdateText;
+    }
+
     protected override void UpdateText(float playerStasValue)
     {
         currentValue.text = $"{Mathf.CeilToInt(playerStasValue)}";

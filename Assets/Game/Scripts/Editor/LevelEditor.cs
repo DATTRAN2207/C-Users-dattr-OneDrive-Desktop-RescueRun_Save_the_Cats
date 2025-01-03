@@ -87,7 +87,16 @@ public class LevelEditor : EditorWindow
 
         var level = levelData.levels[selectedLevelIndex];
         level.roadLength = EditorGUILayout.IntField("Road Length", level.roadLength);
+
+        EditorGUILayout.BeginHorizontal();
         level.ziczacCount = EditorGUILayout.IntField("Ziczac Count", level.ziczacCount);
+        GUILayout.Label(new GUIContent("?", "Increasing Ziczac Count makes the level harder to navigate."), GUILayout.Width(20));
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        level.laneWidth = EditorGUILayout.IntField("Lane Width", level.laneWidth);
+        GUILayout.Label(new GUIContent("?", "Smaller Lane Width increases the difficulty of the level."), GUILayout.Width(20));
+        EditorGUILayout.EndHorizontal();
 
         DrawCatConfiguration(level);
         DrawObstacleConfiguration(level);

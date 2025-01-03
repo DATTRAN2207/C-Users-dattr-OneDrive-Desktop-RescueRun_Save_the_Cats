@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            PlayerData = new PlayerData(currentLevel: 0, currentMoney: 50f, initialStamina: 60f, initialSpeed: 1f, initialIncome: 3f);
+            playerData = new PlayerData(currentLevel: 0, currentMoney: 50f, initialStamina: 60f, initialSpeed: 1f, initialIncome: 3f);
             SavePlayerData();
             PlayerPrefs.SetInt(PlayerInitializedKey, 1);
         }
@@ -50,15 +50,15 @@ public class GameManager : MonoBehaviour
 
     public void SavePlayerData()
     {
-        PlayerPrefs.SetInt("Level", PlayerData.level);
-        PlayerPrefs.SetFloat("Money", PlayerData.money);
-        PlayerPrefs.SetFloat("Stamina", PlayerData.stamina);
-        PlayerPrefs.SetFloat("Speed", PlayerData.speed);
-        PlayerPrefs.SetFloat("Income", PlayerData.income);
+        PlayerPrefs.SetInt("Level", playerData.level);
+        PlayerPrefs.SetFloat("Money", playerData.money);
+        PlayerPrefs.SetFloat("Stamina", playerData.stamina);
+        PlayerPrefs.SetFloat("Speed", playerData.speed);
+        PlayerPrefs.SetFloat("Income", playerData.income);
 
-        PlayerPrefs.SetInt("StaminaUpgradeCount", PlayerData.staminaUpgradeCount);
-        PlayerPrefs.SetInt("SpeedUpgradeCount", PlayerData.speedUpgradeCount);
-        PlayerPrefs.SetInt("IncomeUpgradeCount", PlayerData.incomeUpgradeCount);
+        PlayerPrefs.SetInt("StaminaUpgradeCount", playerData.staminaUpgradeCount);
+        PlayerPrefs.SetInt("SpeedUpgradeCount", playerData.speedUpgradeCount);
+        PlayerPrefs.SetInt("IncomeUpgradeCount", playerData.incomeUpgradeCount);
 
         PlayerPrefs.Save();
     }
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         int speedUpgradeCount = PlayerPrefs.GetInt("SpeedUpgradeCount", 0);
         int incomeUpgradeCount = PlayerPrefs.GetInt("IncomeUpgradeCount", 0);
 
-        PlayerData = new PlayerData(level, money, stamina, speed, income)
+        playerData = new PlayerData(level, money, stamina, speed, income)
         {
             staminaUpgradeCount = staminaUpgradeCount,
             speedUpgradeCount = speedUpgradeCount,
@@ -111,7 +111,12 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayerMoney(float upgradeCost)
     {
-        playerData.money -= upgradeCost;
+        playerData.money += upgradeCost;
         OnMoneyChanged?.Invoke(playerData.money);
+    }
+
+    public void UpdatePlayerLevel()
+    {
+        playerData.level++;
     }
 }

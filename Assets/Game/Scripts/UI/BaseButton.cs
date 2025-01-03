@@ -16,6 +16,10 @@ public class BaseButton : MonoBehaviour
         button = GetComponent<Button>();
     }
 
+    protected virtual void OnDestroy()
+    {
+    }
+
     protected virtual void SetStatusOfButton(bool status)
     {
         if (status)

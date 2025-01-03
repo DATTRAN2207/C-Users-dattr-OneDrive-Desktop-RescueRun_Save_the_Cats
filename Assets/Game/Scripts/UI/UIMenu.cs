@@ -40,7 +40,7 @@ public class UIMenu : MonoBehaviour
 
         if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
+            GameManager.Instance.UpdatePlayerMoney(-upgradeCost);
         }
     }
 
@@ -50,7 +50,7 @@ public class UIMenu : MonoBehaviour
 
         if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
+            GameManager.Instance.UpdatePlayerMoney(-upgradeCost);
         }
     }
 
@@ -60,7 +60,7 @@ public class UIMenu : MonoBehaviour
 
         if (GameManager.Instance.PlayerData.money >= upgradeCost)
         {
-            GameManager.Instance.UpdatePlayerMoney(upgradeCost);
+            GameManager.Instance.UpdatePlayerMoney(-upgradeCost);
         }
     }
 

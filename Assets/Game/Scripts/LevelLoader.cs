@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
+    public static LevelLoader Instance;
+
     [SerializeField] private LevelData levelData;
     [SerializeField] private Transform spawnParent;
     [SerializeField] private GameObject terrianPrefab;
     [SerializeField] private GameObject road;
+    [SerializeField] private GameObject blockLeft;
+    [SerializeField] private GameObject blockRight;
     [SerializeField] private GameObject endPoint;
 
     [Header("Spawn Settings")]
@@ -16,7 +20,13 @@ public class LevelLoader : MonoBehaviour
     private int[,] grid;
     private int roadLength;
     private int roadWidth = 10;
-    private int laneWidth = 2;
+    private int laneWidth;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     private void Start()
     {
@@ -39,7 +49,7 @@ public class LevelLoader : MonoBehaviour
 
         var level = levelData.levels[levelIndex];
         roadLength = level.roadLength;
-
+        laneWidth = level.laneWidth;
         grid = new int[roadWidth, roadLength];
 
         GetRandomPositionToEndPoint(level);
@@ -255,6 +265,10 @@ public class LevelLoader : MonoBehaviour
         endPoint.transform.position = new Vector3(5f, 0.5f, roadLength - 20f);
         road.transform.position = new Vector3(5f, 0f, roadLength / 2f);
         road.transform.localScale = new Vector3(10f, 0.5f, roadLength);
+        blockLeft.transform.position = new Vector3(blockLeft.transform.position.x, blockLeft.transform.position.y, roadLength / 2 - 10f);
+        blockLeft.transform.localScale = new Vector3(blockLeft.transform.localScale.x, blockLeft.transform.localScale.y, roadLength + 20f);
+        blockRight.transform.position = new Vector3(blockRight.transform.position.x, blockRight.transform.position.y, roadLength / 2 - 10f);
+        blockRight.transform.localScale = new Vector3(blockRight.transform.localScale.x, blockRight.transform.localScale.y, roadLength + 20f);
     }
 
     private void SpawnTerrain(float roadLength)
@@ -345,5 +359,10 @@ public class LevelLoader : MonoBehaviour
         ClearLevel();
         LoadLevel(levelIndex);
         Debug.Log($"Level {levelIndex} reloaded.");
+    }
+
+    public LevelData GetLevelData()
+    {
+        return levelData;
     }
 }
