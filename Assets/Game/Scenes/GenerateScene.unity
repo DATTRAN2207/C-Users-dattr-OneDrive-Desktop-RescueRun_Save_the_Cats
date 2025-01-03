@@ -1618,8 +1618,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: a6b1401851262b84192e6853686a5a2b, type: 2}
   spawnParent: {fileID: 1972920339}
-  terrianPrefab: {fileID: 4420546346858892803, guid: c9c7f7856fbd4d7479559277dcca5db0, type: 3}
+  terrianPrefab: {fileID: 958711047378208689, guid: c9c7f7856fbd4d7479559277dcca5db0, type: 3}
   road: {fileID: 1769461324}
+  blockLeft: {fileID: 1010575704}
+  blockRight: {fileID: 2133578808}
   endPoint: {fileID: 1794315899}
   startBuffer: 20
   endBuffer: 40

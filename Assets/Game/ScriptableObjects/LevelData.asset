@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - roadLength: 400
-    ziczacCount: 5
-    laneWidth: 5
+    ziczacCount: 20
+    laneWidth: 3
     catCount: 5
-    obstacleCount: 1
+    obstacleCount: 2
     cats:
     - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
       sizeInGrid: {x: 1, y: 1}
@@ -40,9 +40,9 @@ MonoBehaviour:
       sizeInGrid: {x: 7, y: 4}
   - roadLength: 1000
     ziczacCount: 10
-    laneWidth: 3
-    catCount: 6
-    obstacleCount: 3
+    laneWidth: 4
+    catCount: 10
+    obstacleCount: 5
     cats:
     - catPrefab: {fileID: 3438494657775885128, guid: b7db936c0e413f746ba4c1fdbcf7f33a, type: 3}
       sizeInGrid: {x: 1, y: 1}

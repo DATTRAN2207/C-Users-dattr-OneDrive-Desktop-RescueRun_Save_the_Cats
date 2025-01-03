@@ -30,6 +30,7 @@ public class LevelLoader : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance == null) return;
         LoadLevel(GameManager.Instance.PlayerData.level);
     }
 

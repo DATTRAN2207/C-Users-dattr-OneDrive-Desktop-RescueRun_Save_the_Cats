@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
             uIBoostSpeedInRunScene.UpdateNeedleRotation(currentSpeed);
 
             Vector3 movement = inputDirection.normalized * currentSpeed;
-            _rigidbody.velocity = new Vector3(movement.x, _rigidbody.velocity.y, movement.z);
+            _rigidbody.linearVelocity = new Vector3(movement.x, _rigidbody.linearVelocity.y, movement.z);
 
             _lastRotation = Quaternion.LookRotation(inputDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, _lastRotation, Time.deltaTime * rotationSpeed);
@@ -88,12 +88,12 @@ public class PlayerController : MonoBehaviour
                     uIBoostSpeedInRunScene.UpdateNeedleRotation(currentSpeed);
 
                     Vector3 movement = _lastRotation * Vector3.forward * currentSpeed;
-                    _rigidbody.velocity = new Vector3(movement.x, _rigidbody.velocity.y, movement.z);
+                    _rigidbody.linearVelocity = new Vector3(movement.x, _rigidbody.linearVelocity.y, movement.z);
                 })
                 .OnComplete(() =>
                 {
                     currentSpeed = 0;
-                    _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
+                    _rigidbody.linearVelocity = new Vector3(0, _rigidbody.linearVelocity.y, 0);
                     animator.SetBool("isWalking", false);
                     animator.SetBool("isRunning", false);
 

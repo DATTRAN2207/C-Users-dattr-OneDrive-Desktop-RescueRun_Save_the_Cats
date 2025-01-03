@@ -114,7 +114,7 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
         }
 
         Vector3 movement = Vector3.forward * speed;
-        _playerRigidbody.velocity = new Vector3(movement.x, _playerRigidbody.velocity.y, movement.z);
+        _playerRigidbody.linearVelocity = new Vector3(movement.x, _playerRigidbody.linearVelocity.y, movement.z);
 
         UpdateNeedleRotation(speed);
     }
@@ -129,7 +129,7 @@ public class UIBoostSpeedInMenuScene : UIBoostSpeed
 
     private void StopPlayer()
     {
-        _playerRigidbody.velocity = Vector3.zero;
+        _playerRigidbody.linearVelocity = Vector3.zero;
         playerAnimator.SetBool("isWalking", false);
         playerAnimator.SetBool("isRunning", false);
     }
